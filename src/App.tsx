@@ -40,7 +40,7 @@ function AppRoutes() {
                   isOpen={true}
                   onClose={() => {}}
                   onSwitchToSignUp={() => {
-                    window.location.href = "/signup";
+                    window.location.hash = "#/signup";
                   }}
                 />
               </div>
