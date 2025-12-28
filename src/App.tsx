@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -58,7 +58,7 @@ function AppRoutes() {
                   isOpen={true}
                   onClose={() => {}}
                   onSwitchToLogin={() => {
-                    window.location.href = "/login";
+                    window.location.hash = "#/login";
                   }}
                 />
               </div>
@@ -103,11 +103,10 @@ function AppRoutes() {
 }
 
 function App() {
-  // Use base path for GitHub Pages deployment, empty for local development
-  const basename = import.meta.env.PROD ? "/gmgn-ai-fork" : "";
-
+  // Use HashRouter for GitHub Pages - more reliable than BrowserRouter
+  // URLs will look like: https://caicaishmily.github.io/gmgn-ai-fork/#/login
   return (
-    <Router basename={basename}>
+    <Router>
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>
