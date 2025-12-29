@@ -4,13 +4,9 @@ import { User, AuthContextType } from '../types'
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // For development: bypass login by default
-  const [isAuthenticated, setIsAuthenticated] = useState(true)
-  const [user, setUser] = useState<User | null>({
-    id: 1,
-    email: 'dev@example.com',
-    name: 'Developer',
-  })
+  // Start with false to allow testing login/signup pages
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
   const [showLogin, setShowLogin] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
 
@@ -24,16 +20,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(JSON.parse(savedUser))
       }
     }
-    // For development: auto-login if no saved auth
-    // Remove this block in production
-    else {
-      setIsAuthenticated(true)
-      setUser({
-        id: 1,
-        email: 'dev@example.com',
-        name: 'Developer',
-      })
-    }
+    // For development: you can uncomment this to auto-login
+    // else {
+    //   setIsAuthenticated(true)
+    //   setUser({
+    //     id: 1,
+    //     email: 'dev@example.com',
+    //     name: 'Developer',
+    //   })
+    // }
   }, [])
 
   const login = (userData: User) => {

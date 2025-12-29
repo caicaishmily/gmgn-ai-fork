@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
 
 interface LoginModalProps {
   isOpen: boolean
@@ -12,18 +11,18 @@ interface LoginModalProps {
 export default function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginModalProps) {
   const [email, setEmail] = useState('')
   const { login } = useAuth()
-  const navigate = useNavigate()
 
   if (!isOpen) return null
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // Mock login
     login({
       email,
       name: email.split('@')[0],
     })
-    navigate('/')
+    // Navigate to home page using hash router
+    window.location.hash = '#/'
   }
 
   const handleSocialLogin = (provider: string) => {
@@ -33,7 +32,8 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginM
       name: provider,
       provider,
     })
-    navigate('/')
+    // Navigate to home page using hash router
+    window.location.hash = '#/'
   }
 
   return (

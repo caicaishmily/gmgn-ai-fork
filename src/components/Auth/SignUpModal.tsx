@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
 
 interface SignUpModalProps {
   isOpen: boolean
@@ -13,11 +12,10 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
   const [email, setEmail] = useState('')
   const [inviteCode, setInviteCode] = useState('')
   const { signUp } = useAuth()
-  const navigate = useNavigate()
 
   if (!isOpen) return null
 
-  const handleSignUp = (e) => {
+  const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // Mock sign up
     signUp({
@@ -25,7 +23,8 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
       inviteCode,
       name: email.split('@')[0],
     })
-    navigate('/')
+    // Navigate to home page using hash router
+    window.location.hash = '#/'
   }
 
   const handleSocialSignUp = (provider: string) => {
@@ -35,7 +34,8 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
       name: provider,
       provider,
     })
-    navigate('/')
+    // Navigate to home page using hash router
+    window.location.hash = '#/'
   }
 
   return (

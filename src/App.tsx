@@ -16,7 +16,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 function AppRoutes() {
