@@ -1,31 +1,34 @@
-import { useState } from 'react'
-import { X } from 'lucide-react'
-import { useAuth } from '../../context/AuthContext'
+import { useState } from "react";
+import { X } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-interface SignUpModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSwitchToLogin?: () => void
-}
+export default function SignUpModal({
+  isOpen,
+  onClose,
+  onSwitchToLogin = () => {},
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSwitchToLogin?: () => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [inviteCode, setInviteCode] = useState("");
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
-export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUpModalProps) {
-  const [email, setEmail] = useState('')
-  const [inviteCode, setInviteCode] = useState('')
-  const { signUp } = useAuth()
-
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     // Mock sign up
     signUp({
       email,
       inviteCode,
-      name: email.split('@')[0],
-    })
-    // Navigate to home page using hash router
-    window.location.hash = '#/'
-  }
+      name: email.split("@")[0],
+    });
+    navigate("/");
+  };
 
   const handleSocialSignUp = (provider: string) => {
     // Mock social sign up
@@ -33,10 +36,9 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
       email: `${provider}@example.com`,
       name: provider,
       provider,
-    })
-    // Navigate to home page using hash router
-    window.location.hash = '#/'
-  }
+    });
+    navigate("/");
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
@@ -49,9 +51,9 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
         </button>
 
         <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
-        
+
         <p className="text-gray-400 mb-6">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <button
             onClick={onSwitchToLogin}
             className="text-gmgn-green hover:text-gmgn-green-light transition-colors"
@@ -75,7 +77,8 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
 
           <div>
             <label className="block text-sm font-medium mb-2">
-              Invite Code <span className="text-gray-400 font-normal">(Optional)</span>
+              Invite Code{" "}
+              <span className="text-gray-400 font-normal">(Optional)</span>
             </label>
             <input
               type="text"
@@ -85,7 +88,8 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
               className="w-full px-4 py-3 bg-gmgn-gray-light rounded-lg border border-gray-700 focus:border-gmgn-green focus:outline-none transition-colors"
             />
             <p className="text-xs text-gray-500 mt-2">
-              The invite code cannot be changed after binding. Please ensure the correct invite code is entered.
+              The invite code cannot be changed after binding. Please ensure the
+              correct invite code is entered.
             </p>
           </div>
 
@@ -108,23 +112,23 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
 
         <div className="flex gap-4 justify-center mb-8">
           <button
-            onClick={() => handleSocialSignUp('Telegram')}
+            onClick={() => handleSocialSignUp("Telegram")}
             className="flex flex-col items-center gap-2 px-4 py-3 bg-gmgn-gray-light hover:bg-gray-600 rounded-lg transition-colors"
           >
             <div className="w-8 h-8 bg-blue-500 rounded"></div>
             <span className="text-sm">Telegram</span>
           </button>
-          
+
           <button
-            onClick={() => handleSocialSignUp('Phantom')}
+            onClick={() => handleSocialSignUp("Phantom")}
             className="flex flex-col items-center gap-2 px-4 py-3 bg-gmgn-gray-light hover:bg-gray-600 rounded-lg transition-colors"
           >
             <div className="w-8 h-8 bg-purple-500 rounded"></div>
             <span className="text-sm">Phantom</span>
           </button>
-          
+
           <button
-            onClick={() => handleSocialSignUp('MetaMask')}
+            onClick={() => handleSocialSignUp("MetaMask")}
             className="flex flex-col items-center gap-2 px-4 py-3 bg-gmgn-gray-light hover:bg-gray-600 rounded-lg transition-colors"
           >
             <div className="w-8 h-8 bg-orange-500 rounded"></div>
@@ -133,11 +137,14 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
         </div>
 
         <div className="flex gap-4 text-sm text-gray-400">
-          <button className="hover:text-white transition-colors">Terms of Service</button>
-          <button className="hover:text-white transition-colors">Privacy Policy</button>
+          <button className="hover:text-white transition-colors">
+            Terms of Service
+          </button>
+          <button className="hover:text-white transition-colors">
+            Privacy Policy
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
